@@ -1,0 +1,10 @@
+[submodule "mimir_regex_benchmark"]
+	path = mimir_regex_benchmark
+	url = ../../fodinabor/mimir_regex_benchmark.git
+[submodule "impala"]
+	path = impala
+	url = ../impala
+	branch = mim
+[submodule "MimIR"]
+	path = MimIR
+	url = ../MimIR
