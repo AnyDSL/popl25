@@ -27,10 +27,10 @@ The steps performed by the script are:
 - Build and evaluate the MimIR RegEx plugin benchmark
 
 #### Benchmarks Game
-In the paper (6.1), we claim that using Mim with it's low-level plugins allows writing code that is competitive performance-wise to standard C code.
+**Claim**: In the paper (6.1), we claim that using Mim with it's low-level plugins allows writing code that is competitive performance-wise to standard C code.
 
-To support this claim, we ported a number of benchmarks from the Benchmarks Game to Impala (a custom language frontend that uses Mim for code generation & optimization).
-Compiling these benchmarks through Mim produces binaries that show competitive performance to similar C implementations of the same benchmarks.
+To support this claim, we ported a number of benchmarks from the Benchmarks Game to Impala (a custom language frontend that uses MimIR for code generation & optimization).
+Compiling these benchmarks through MimIR produces binaries that show competitive performance to similar C implementations of the same benchmarks.
 
 After running the `evaluate.sh` script, the results will be found in `output/benchmarksgame`.
 You may compare these numbers with `Table 3`.
@@ -47,6 +47,15 @@ The AutoDiff evaluation is based on a modified downstream version of MimIR (back
 We believe that this case study shows part of the potential of using MimIR for DSL development, but this part is not yet in a state for public use.
 
 The evaluation is based on the docker image `neuralcoder/thornado-ad:hardcode2` that contains the MimIR, Impala, PyTorch and Enzyme versions used for the paper.
+
+The AutoDiff work show that MimIR lends itself quite nicely to developing efficient DSLs on top.
+By making use of the IR's functional principles, the task of auto differentiation can be solved in a compact implementation and efficiently.
+
+**Claim**: In the paper (6.3) we claim that our AutoDiff implementation is much more compact due to MimIR's design than comparable implementations on LLVM IR (Enzyme).
+Todo: calculate metrics again.
+
+**Claim**: In the paper, we also claim that the performance is still comparable to state of the art auto differentiation tools (PyTorch, Enzyme).
+After running `./evaluate.sh` the results will be found in `output/autodiff`.
 
 ## Availability of the artifact
 The POPL artifact is available at Zenodo (todo).
