@@ -8,3 +8,7 @@
 [submodule "MimIR"]
 	path = MimIR
 	url = ../MimIR
+[submodule "benchmarksgame"]
+	path = benchmarksgame
+	url = ../benchmarks-impala
+	branch = t2
