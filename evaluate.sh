@@ -4,26 +4,29 @@ set -e
 
 SCRIPT_PATH=$(dirname $(realpath $0))
 
+export PATH=${SCRIPT_PATH}/install/bin:$PATH
+export LD_LIBRARY_PATH=${SCRIPT_PATH}/install/lib:$LD_LIBRARY_PATH
+
+mkdir -p ${SCRIPT_PATH}/output
+
 cd MimIR
 git submodule update --init --recursive
 
 # install MimIR
 mkdir -p build && cd build
-cmake .. -DCMAKE_BUILD_TYPE=Release -DBUILD_TESTING=OFF -DCMAKE_CXX_COMPILER=g++ -DCMAKE_C_COMPILER=gcc -DCMAKE_INSTALL_PREFIX=${SCRIPT_PATH}/install
-make -j`nproc` install
+cmake .. -G Ninja -DCMAKE_BUILD_TYPE=Release -DBUILD_TESTING=OFF -DCMAKE_CXX_COMPILER=g++ -DCMAKE_C_COMPILER=gcc -DCMAKE_INSTALL_PREFIX=${SCRIPT_PATH}/install
+ninja install
 
 # install impala
 mkdir -p ${SCRIPT_PATH}/impala/build && cd ${SCRIPT_PATH}/impala/build
-cmake .. -DCMAKE_BUILD_TYPE=Release -DMim_DIR=${SCRIPT_PATH}/install/lib/cmake/mim -DCMAKE_CXX_COMPILER=g++ -DCMAKE_C_COMPILER=gcc -DCMAKE_INSTALL_PREFIX=${SCRIPT_PATH}/install
-make -j`nproc` install
+cmake .. -G Ninja -DCMAKE_BUILD_TYPE=Release -DMim_DIR=${SCRIPT_PATH}/install/lib/cmake/mim -DCMAKE_CXX_COMPILER=g++ -DCMAKE_C_COMPILER=gcc -DCMAKE_INSTALL_PREFIX=${SCRIPT_PATH}/install
+ninja install
 
 # build regex
 mkdir -p ${SCRIPT_PATH}/mimir_regex_benchmark/build && cd ${SCRIPT_PATH}/mimir_regex_benchmark/build
 git submodule update --init ../compile-time-regular-expressions
 cmake .. -DCMAKE_BUILD_TYPE=Release -DMim_DIR=${SCRIPT_PATH}/install/lib/cmake/mim -DCMAKE_CXX_COMPILER=/usr/bin/clang++ -DCMAKE_C_COMPILER=/usr/bin/clang -DCMAKE_INSTALL_PREFIX=${SCRIPT_PATH}/install
 make -j`nproc`
-
-export PATH=${SCRIPT_PATH}/install/bin:$PATH
 
 cd ..
 
@@ -47,10 +50,12 @@ echo "Run Impala Benchmarks Game"
 
 cd ${SCRIPT_PATH}/benchmarksgame
 
-# for a few benchmarks, we must restrict CopyProp to Basic Block only:
+# for a few benchmarks, we must restrict CopyProp to Basic Block only and register trap to reset, in case of aborting benchmark...
+trap 'sed -i "s/(%mem.copy_prop_pass (beta_red, eta_exp, .tt));/(%mem.copy_prop_pass (beta_red, eta_exp, .ff));/" ${SCRIPT_PATH}/install/lib/mim/mem.mim; exit' INT
 sed -i 's/(%mem.copy_prop_pass (beta_red, eta_exp, .ff));/(%mem.copy_prop_pass (beta_red, eta_exp, .tt));/' ${SCRIPT_PATH}/install/lib/mim/mem.mim
 
-NO_RUST=1 NO_HASKELL=1 ./run.sh
+NO_RUST=1 NO_HASKELL=1 ./run.sh |& tee results
+python3 ../scripts/benchmarksgame-stddev.py | tee ../output/benchmarksgame
 
 # restore CopyProp to general Lams:
 sed -i 's/(%mem.copy_prop_pass (beta_red, eta_exp, .tt));/(%mem.copy_prop_pass (beta_red, eta_exp, .ff));/' ${SCRIPT_PATH}/install/lib/mim/mem.mim
