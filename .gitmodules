@@ -12,3 +12,6 @@
 	path = benchmarksgame
 	url = ../benchmarks-impala
 	branch = t2
+[submodule "soundness"]
+	path = soundness
+	url = ../../NeuralCoder3/mimir-soundness
