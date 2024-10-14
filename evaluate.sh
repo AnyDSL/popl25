@@ -35,27 +35,53 @@ grep -oE "[a-zA-Z0-9_.\-]+@[a-zA-Z0-9_.\-]+" fradulent_emails.txt > addresses.tx
 python3 annotate_matched.py
 
 echo "Run Email Address RegEx Benchmark"
-./build/benchmark_mail annotated.txt 2> full_results.csv
-echo "Full results are saved in full_results.csv"
+./build/benchmark_mail annotated.txt 2> ${SCRIPT_PATH}/output/benchmark_mail_runtime_full.csv | tee ${SCRIPT_PATH}/output/benchmark_mail_runtime.csv
+echo "Summary results are saved in output/benchmark_mail_runtime.csv"
+echo "Full results are saved in output/benchmark_mail_runtime_full.csv"
 
 echo "Compile-time RegEx Benchmark"
 cd build
 cmake . -DREGEX_COMPILE_TIME_BENCHMARK=ON
-# warm-up the cache
+# warm-up the file cache once
 make clean; make -n benchmark_mail 2> /dev/null | grep -E "(clang++|bin/mim)" | sed "s/^/time /" | bash --verbose &> /dev/null
-make clean; make -n benchmark_mail 2> /dev/null | grep -E "(clang++|bin/mim)" | sed "s/^/time /" | bash --verbose |& grep -oP "(\-o [\/\w\.]+|\-c [\/\w\.]+|[\/\w\.]+ --output-ll [\/\w\.]+|user.*$)"
+make clean; make -n benchmark_mail 2> /dev/null | grep -E "(clang++|bin/mim)" | sed "s/^/time /" | bash --verbose |& grep -oP "(\-o [\/\w\.]+|\-c [\/\w\.]+|[\/\w\.]+ --output-ll [\/\w\.]+|user.*$)" |& tee ${SCRIPT_PATH}/output/benchmark_mail_compiletime.csv
 
+echo "CLOC RegEx implementations"
+rm -rf pcre2 &> /dev/null
+git clone https://github.com/PCRE2Project/pcre2.git &> /dev/null
+cd pcre2
+git reset --hard 0ef82f7eb78e9effd662239c6dac70c534a6d60b &> /dev/null # this is the commit we used in the paper
+cd ../..
+
+echo -n "CTRE: " | tee ${SCRIPT_PATH}/output/regex_cloc.txt
+cloc --csv compile-time-regular-expressions/single-header/ctre.hpp | grep "SUM" | grep -oP "\d+$" | tee -a ${SCRIPT_PATH}/output/regex_cloc.txt
+
+echo -n "std::regex: " | tee -a ${SCRIPT_PATH}/output/regex_cloc.txt
+CPP_INCLUDE=`c++ -xc++ /dev/null -E -Wp,-v 2>&1 | sed -n 's,^ ,,p' | grep "/" | head -n 1`
+cloc ${CPP_INCLUDE}/bits/regex* --csv | grep "SUM" | grep -oP "\d+$" | tee -a ${SCRIPT_PATH}/output/regex_cloc.txt
+
+echo -n "PCRE2: " | tee -a ${SCRIPT_PATH}/output/regex_cloc.txt
+cloc build/pcre2/src --csv | grep "SUM" | grep -oP "\d+$" | tee -a ${SCRIPT_PATH}/output/regex_cloc.txt
+
+echo -n "Hand-written: " | tee -a ${SCRIPT_PATH}/output/regex_cloc.txt
+cloc manual_match_mail.cpp --csv | grep "SUM" | grep -oP "\d+$" | tee -a ${SCRIPT_PATH}/output/regex_cloc.txt
+
+MIMIR_CPP=`cloc --include-ext="hpp,cpp,h,c" ../MimIR/*/mim/plug/regex ../MimIR/*/automaton --csv | grep "SUM" | grep -oP "\d+$"`
+MIMIR_MIM=`cloc --force-lang=rust ../MimIR/src/mim/plug/regex/regex.mim --csv | grep "SUM" | grep -oP "\d+$"`
+echo "MimIR: C++: $MIMIR_CPP, Mim: $MIMIR_MIM, Total: $((MIMIR_CPP + MIMIR_MIM))" | tee -a ${SCRIPT_PATH}/output/regex_cloc.txt
+
+echo "REGEX CLOC results are saved in output/regex_cloc.txt"
 
 echo "Run Impala Benchmarks Game"
 
 cd ${SCRIPT_PATH}/benchmarksgame
 
-# for a few benchmarks, we must restrict CopyProp to Basic Block only and register trap to reset, in case of aborting benchmark...
+# for a few benchmarks game benchmarks, we must restrict CopyProp to Basic Block only -> register trap to reset, in case of aborting benchmark...
 trap 'sed -i "s/(%mem.copy_prop_pass (beta_red, eta_exp, .tt));/(%mem.copy_prop_pass (beta_red, eta_exp, .ff));/" ${SCRIPT_PATH}/install/lib/mim/mem.mim; exit' INT
 sed -i 's/(%mem.copy_prop_pass (beta_red, eta_exp, .ff));/(%mem.copy_prop_pass (beta_red, eta_exp, .tt));/' ${SCRIPT_PATH}/install/lib/mim/mem.mim
 
 NO_RUST=1 NO_HASKELL=1 ./run.sh |& tee results
-python3 ../scripts/benchmarksgame-stddev.py | tee ../output/benchmarksgame
+python3 ../scripts/benchmarksgame-stddev.py | tee ${SCRIPT_PATH}/output/benchmarksgame
 
 # restore CopyProp to general Lams:
 sed -i 's/(%mem.copy_prop_pass (beta_red, eta_exp, .tt));/(%mem.copy_prop_pass (beta_red, eta_exp, .ff));/' ${SCRIPT_PATH}/install/lib/mim/mem.mim

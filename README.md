@@ -30,7 +30,7 @@ The steps performed by the script are:
 - Build and evaluate the MimIR RegEx plugin benchmark
 
 #### Benchmarks Game
-**Claim**: In the paper (6.1), we claim that using Mim with it's low-level plugins allows writing code that is competitive performance-wise to standard C code.
+**Claim**: In the paper (6.1), we claim that using MimIR with it's low-level plugins allows writing code that is competitive performance-wise to standard C code.
 
 To support this claim, we ported a number of benchmarks from the Benchmarks Game to Impala (a custom language frontend that uses MimIR for code generation & optimization).
 Compiling these benchmarks through MimIR produces binaries that show competitive performance to similar C implementations of the same benchmarks.
@@ -42,6 +42,28 @@ Instead, the ratio between C and Impala is the interesting to observe part.
 Background processes in the VM and your local machine may lead to inconsistencies. The benchmarks are repeated a number of times, however, to reduce this effect and present a final averaged number.
 
 #### RegEx
+**Claim**: In the paper (6.2, Table 4), we claim that MimIR allows embedding domain-specific languages and optimizations in a succinct manner while achieving state-of-the-art performance.
+
+We showcase this with a RegEx matcher implementation that makes use of MimIR's normalization framework and its easy integration of domain-specific optimizations.
+
+After running the `evaluate.sh` script, the results will be found at:
+- aggregate runtime performance results: `output/benchmark_mail_runtime.csv`
+- aggregate compile time performance results: `output/benchmark_mail_compiletime` (lists the input/output file and the `user` compile time)
+- aggregate line of code counts: `output/regex_cloc.txt`.
+
+Regarding interpretation of the timing results:
+Depending on the hardware the benchmarks are run on, individual times will vary. However, the expectation is that the relative performance of the implementations will be roughly similar compared to the paper results.
+Refer to `Table 4` for our results.
+
+Note, for some reason, the compile time performance test unnecessarily compiles the MimIR file twice.
+That's a build-system issue, not a MimIR limitation. Just use either value.
+
+The line of code (LoC) metrics depend on:
+- the submodule of CTRE, that we use for the benchmark as well, the numbers should match the paper.
+- for pcre2 we checkout the repo at the commit we did the initial evaluation with, the numbers should thus match the paper.
+- for std::regex we use the installed C++ standard library, the numbers therefore might differ slightly from those in the paper.
+- for the manual implementation we merely inspect the relevant file in the benchmark folder (`manual_match_mail.cpp`), the numbers therefore should match the paper.
+- for MimIR, we refer to the relevant files in the top level MimIR repository (`mim/plug/regex`, `automaton` in both `include` and `src`), these numbers should match the paper.
 
 
 #### AutoDiff
