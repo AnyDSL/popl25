@@ -17,6 +17,9 @@ You can do so via sshfs (`sshfs popl25ae-mimir:outputs popl25ae_mimir -o follow_
 
 ### Soundness
 
+Running `make` inside `soundness/mimir/` builds the Coq proofs.
+For manual inspection, `soundness/mimir/` contains a VSCode DevContainer with Coq, VSCode Extensions, and the necessary packages.
+The main file is `soundness/mimir/semantics/types_sol.v` with the progress lemma on [line 140](https://github.com/NeuralCoder3/mimir-soundness/blob/7594a3fc2715c58e907f978b0f4f8762c6192d3d/mimir/semantics/types_sol.v#L140) and preservation on [line 1246](https://github.com/NeuralCoder3/mimir-soundness/blob/7594a3fc2715c58e907f978b0f4f8762c6192d3d/mimir/semantics/types_sol.v#L1246).
 
 ### MimIR Performance Evaluation
 
