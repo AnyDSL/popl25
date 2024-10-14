@@ -81,7 +81,7 @@ trap 'sed -i "s/(%mem.copy_prop_pass (beta_red, eta_exp, .tt));/(%mem.copy_prop_
 sed -i 's/(%mem.copy_prop_pass (beta_red, eta_exp, .ff));/(%mem.copy_prop_pass (beta_red, eta_exp, .tt));/' ${SCRIPT_PATH}/install/lib/mim/mem.mim
 
 NO_RUST=1 NO_HASKELL=1 ./run.sh |& tee results
-python3 ../scripts/benchmarksgame-stddev.py | tee ${SCRIPT_PATH}/output/benchmarksgame
+python3 ../scripts/benchmarksgame-stddev.py | tee ${SCRIPT_PATH}/output/benchmarksgame.csv
 
 # restore CopyProp to general Lams:
 sed -i 's/(%mem.copy_prop_pass (beta_red, eta_exp, .tt));/(%mem.copy_prop_pass (beta_red, eta_exp, .ff));/' ${SCRIPT_PATH}/install/lib/mim/mem.mim

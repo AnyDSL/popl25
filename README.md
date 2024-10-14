@@ -35,7 +35,7 @@ The steps performed by the script are:
 To support this claim, we ported a number of benchmarks from the Benchmarks Game to Impala (a custom language frontend that uses MimIR for code generation & optimization).
 Compiling these benchmarks through MimIR produces binaries that show competitive performance to similar C implementations of the same benchmarks.
 
-After running the `evaluate.sh` script, the results will be found in `output/benchmarksgame`.
+After running the `evaluate.sh` script, the results will be found in `output/benchmarksgame.csv`.
 You may compare these numbers with `Table 3`.
 Note, depending on your setup, the absolute time is expected to change, obviously.
 Instead, the ratio between C and Impala is the interesting to observe part.
