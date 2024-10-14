@@ -21,6 +21,8 @@ Running `make` inside `soundness/mimir/` builds the Coq proofs.
 For manual inspection, `soundness/mimir/` contains a VSCode DevContainer with Coq, VSCode Extensions, and the necessary packages.
 The main file is `soundness/mimir/semantics/types_sol.v` with the progress lemma on [line 140](https://github.com/NeuralCoder3/mimir-soundness/blob/7594a3fc2715c58e907f978b0f4f8762c6192d3d/mimir/semantics/types_sol.v#L140) and preservation on [line 1246](https://github.com/NeuralCoder3/mimir-soundness/blob/7594a3fc2715c58e907f978b0f4f8762c6192d3d/mimir/semantics/types_sol.v#L1246).
 
+**Claim**: We model a relevant portion of MimIR close to the CPP-Implementation. On this model, we prove lemmas regarding the progress and preservation properties of MimIR.
+
 ### MimIR Performance Evaluation
 
 For the performance evaluation, the `evaluate.sh` script will build and run the necessary tools.
