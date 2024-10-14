@@ -85,3 +85,13 @@ python3 ../scripts/benchmarksgame-stddev.py | tee ${SCRIPT_PATH}/output/benchmar
 
 # restore CopyProp to general Lams:
 sed -i 's/(%mem.copy_prop_pass (beta_red, eta_exp, .tt));/(%mem.copy_prop_pass (beta_red, eta_exp, .ff));/' ${SCRIPT_PATH}/install/lib/mim/mem.mim
+echo "Benchmark Game results are saved in output/benchmarksgame.csv"
+
+echo "Building the Coq soundness proof files."
+cd ${SCRIPT_PATH}/soundness
+git submodule update --init --recursive
+cd mimir
+make -j`nproc`
+
+echo "Done."
+echo "You can find the results in the output directory."
