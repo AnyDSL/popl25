@@ -88,7 +88,9 @@ sed -i 's/(%mem.copy_prop_pass (beta_red, eta_exp, .tt));/(%mem.copy_prop_pass (
 echo "Benchmark Game results are saved in output/benchmarksgame.csv"
 
 echo "Run GMM benchmarks"
+cd ${SCRIPT_PATH}/
 sudo docker run -ti -v "`pwd`/output/autodiff/gmm:/output" -e FOLDERS="10k_small" fodinabor/mimir-ad-bench:gmm
+python3 scripts/plot_gmm.py
 echo "GMM results are saved in output/autodiff"
 
 echo "Building the Coq soundness proof files."
