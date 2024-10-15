@@ -1,27 +1,28 @@
 # POPL'25 Artifact Evaluation
 
 ## VitualBox VM
-Open VirtualBox and import the provided image.
-The image was created using VirtualBox 7.1 on an x86-64bit machine. It contains an Ubuntu Server installation.
+Open VirtualBox and [import](https://docs.oracle.com/en/virtualization/virtualbox/7.1/user/Introduction.html#ovf-import-appliance) the provided image.
+The image was created using VirtualBox 7.1 on an x86-64bit machine. It contains an Ubuntu Desktop installation.
 Provided within the installation are all tools necessary to evaluate the artifact.
 
-Start the VM, you can either start the VM
-To log in to the VM, use the following:
+After starting the VM, log in to the VM, using the following account information:
 Username: `popl`
 Password: `popl25`
 
-To inspect the outputs, either use the command line or mount the directory /home/popl/outputs on your local machine.
-You can do so via sshfs (`sshfs popl25ae-mimir:outputs popl25ae_mimir -o follow_symlinks -o idmap=user -o uid=$(id -u) -o gid=$(id -g)`) or using the VirtualBox mounting facilities: // todo
+As the outputs are plain text, you can inspect the outputs using your favorite editor of choice (hopefully preinstalled).
+For the Coq proofs, we pre-installed VS Code with the necessary extensions.
 
 ## Claims
 
 ### Soundness
 
-Running `make` inside `soundness/mimir/` builds the Coq proofs.
-For manual inspection, `soundness/mimir/` contains a VSCode DevContainer with Coq, VSCode Extensions, and the necessary packages.
+Running `make` inside `soundness/mimir/` builds the Coq proofs (automatically done by `./evaluate.sh`).
+We pre-installed VS Code with the necessary extensions to allow manual inspection of the Coq Proofs.
+For this, open VS Code in the folder `soundness/mimir`.
+
 The main file is `soundness/mimir/semantics/types_sol.v` with the progress lemma on [line 140](https://github.com/NeuralCoder3/mimir-soundness/blob/7594a3fc2715c58e907f978b0f4f8762c6192d3d/mimir/semantics/types_sol.v#L140) and preservation on [line 1246](https://github.com/NeuralCoder3/mimir-soundness/blob/7594a3fc2715c58e907f978b0f4f8762c6192d3d/mimir/semantics/types_sol.v#L1246).
 
-**Claim**: We model a relevant portion of MimIR close to the CPP-Implementation.
+**Claim**: We model a relevant portion of MimIR close to the C++-Implementation.
 On this model, we prove lemmas regarding the progress and preservation properties of MimIR.
 
 ### MimIR Performance Evaluation
