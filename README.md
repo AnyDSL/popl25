@@ -12,6 +12,14 @@ Password: `popl25`
 As the outputs are plain text, you can inspect the outputs using your favorite editor of choice (hopefully preinstalled).
 For the Coq proofs, we pre-installed VS Code with the necessary extensions.
 
+## Kick The Tires
+For the initial kick-the-tires phase, please just run the `./evaluate.sh` script in the `~/popl25` folder and see that everything completes correctly.
+This means that you have the following files in `~/popl25/output`:
+- `benchmarksgame.csv`
+- `benchmark_mail_runtime.csv`
+- `benchmark_mail_compiletime`
+- `regex_cloc.txt`
+
 ## Claims
 
 ### Soundness
