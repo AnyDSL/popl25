@@ -94,8 +94,13 @@ By making use of the IR's functional principles, the task of auto differentiatio
 **Claim**: In the paper (6.3) we claim that our AutoDiff implementation is much more compact due to MimIR's design than comparable implementations on LLVM IR (Enzyme).
 Todo: calculate metrics again.
 
-**Claim**: In the paper, we also claim that the performance is still comparable to state of the art auto differentiation tools (PyTorch, Enzyme).
-After running `./evaluate.sh` the results will be found in `output/autodiff`.
+**Claim**: In the paper, we also claim that the performance is still comparable to state-of-the-art auto differentiation tools (PyTorch, Enzyme).
+After running `./evaluate.sh` the results will be found in output/autodiff`.
+You can find a plot of the results in `output/autodiff/gmm.pdf`. Compare this to `Fig. 8.` in the paper.
+
+To keep the runtime of the artifact reasonable, we only run the GMM benchmark on a subset of tools and sizes.
+Therefore, the plot will only show an approximation of the graph for sizes below $5*10^3$.
+To run a more extensive evaluation, you may execute `sudo docker run -ti -v "`pwd`/output:/output" -e FOLDERS="<SELECT YOUR SIZES>" fodinabor/mimir-ad-bench:gmm`, where supported sizes are `10k_small 10k 10k_D128 10k_K100 10k_D256 10k_K200`.
 
 ## Availability of the artifact
 The POPL artifact is available at Zenodo (todo).
