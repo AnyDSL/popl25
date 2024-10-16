@@ -17,14 +17,19 @@ collect_and_view_metrics() {
         fi
     done
 
-    (metrix++ collect --std.code.lines.code --std.code.complexity.cyclomatic "${files[@]}" && metrix++ view) 2> /dev/null | awk '
-    /Overall metrics for/ {
-        match($0, /Overall metrics for '\''([^'\'']+)'\'' metric/, arr)
-        metric = arr[1]
-    }
-    /Total\s+:\s+[0-9.]+/ {
-        print metric ": " $NF
-    }'
+    (metrix++ collect --std.code.lines.code --std.code.complexity.cyclomatic "${files[@]}" && metrix++ view) 2> /dev/null | \
+grep -E "Overall metrics for '([^']+)' metric|Total\s+:\s+[0-9.]+" | \
+sed -n "/Overall metrics for '/{
+    s/.*Overall metrics for '\([^']*\)' metric/\1/
+    h
+}
+/Total\s*:\s*\([0-9.]\+\)/{
+    s/Total\s*:\s*\([0-9.]\+\)/: \1/
+    H
+    g
+    s/\n/: /
+    p
+}"
 
     # Change back to the original directory
     cd "$original_dir" || { echo "Failed to change directory back to $original_dir"; exit 1; }
