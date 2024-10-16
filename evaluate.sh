@@ -87,6 +87,11 @@ python3 ../scripts/benchmarksgame-stddev.py | tee ${SCRIPT_PATH}/output/benchmar
 sed -i 's/(%mem.copy_prop_pass (beta_red, eta_exp, .tt));/(%mem.copy_prop_pass (beta_red, eta_exp, .ff));/' ${SCRIPT_PATH}/install/lib/mim/mem.mim
 echo "Benchmark Game results are saved in output/benchmarksgame.csv"
 
+echo "Compute AD Complexity"
+# run the metrix.sh script
+cd ${SCRIPT_PATH}/metrix
+./metrix.sh | tee ${SCRIPT_PATH}/output/metrix.txt
+
 echo "Run GMM benchmarks"
 cd ${SCRIPT_PATH}/
 sudo docker run -ti -v "`pwd`/output/autodiff/gmm:/output" -e FOLDERS="10k_small" fodinabor/mimir-ad-bench:gmm
