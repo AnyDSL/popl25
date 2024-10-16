@@ -14,6 +14,10 @@ For the Coq proofs, we pre-installed VS Code with the necessary extensions.
 
 In case the 16GiB requested memory by the VM are too much, you can reduce it down to 6GiB, but then the last step of the PyTorch evaluation will fail.
 
+Once in the VM, open a terminal, navigate to `~/popl25`.
+For initial setup run `cd vm && bash setup-env.sh && source env/bin/activate && cd ..`.
+We will have this done already for the final version.
+
 ## Kick The Tires
 For the initial kick-the-tires phase, please just run the `./evaluate.sh` script in the `~/popl25` folder and see that everything completes correctly.
 This means that you have the following files in `~/popl25/output`:
