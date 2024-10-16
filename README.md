@@ -83,13 +83,14 @@ The line of code (LoC) metrics depend on:
 
 #### AutoDiff
 Note: the AutoDiff case-study is just that - a case study, not intended for re-use at the moment.
-The AutoDiff evaluation is based on a modified downstream version of MimIR (back then called Thorin2) that contains changes that were not deemed stable enough for incorporation in the upstream MimIR project.
-We believe that this case study shows part of the potential of using MimIR for DSL development, but this part is not yet in a state for public use.
+The majority of the AutoDiff infrastructure is indeed available in the primary MimIR repository.
+However, the AutoDiff evaluation is based on a modified downstream version of MimIR (back then called Thorin2) that contains changes (primarily optimizations) that were not deemed stable enough for incorporation in the upstream MimIR project, yet.
+We believe that this case study shows part of the potential of using MimIR for DSL development, but this part is not 100% in a state for public use, yet.
 
-The evaluation is based on the docker image `neuralcoder/thornado-ad:hardcode2` that contains the MimIR, Impala, PyTorch and Enzyme versions used for the paper.
+Therefore, the evaluation is based on the docker image `fodinabor/mimir-ad-bench:gmm` that contains the MimIR, Impala, PyTorch and Enzyme versions used for the paper.
 
 The AutoDiff work shows that MimIR lends itself quite nicely to developing efficient DSLs on top.
-By making use of the IR's functional principles, the task of auto differentiation can be solved in a compact implementation and efficiently.
+By making use of the IR's functional principles, the task of auto differentiation can be solved in a compact implementation and even performs great.
 
 **Claim**: In the paper (6.3) we claim that our AutoDiff implementation is much more compact due to MimIR's design than comparable implementations on LLVM IR (Enzyme).
 Todo: calculate metrics again.
