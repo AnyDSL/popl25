@@ -19,6 +19,7 @@ This means that you have the following files in `~/popl25/output`:
 - `benchmark_mail_runtime.csv`
 - `benchmark_mail_compiletime`
 - `regex_cloc.txt`
+- `metrix.txt`
 
 ## Claims
 
@@ -82,21 +83,21 @@ The line of code (LoC) metrics depend on:
 
 
 #### AutoDiff
-Note: the AutoDiff case-study is just that - a case study, not intended for re-use at the moment.
+Note: The AutoDiff case-study shown here is meant as a proof-of-concept not as a full-fledged framework ready for production.
 The majority of the AutoDiff infrastructure is indeed available in the primary MimIR repository.
 However, the AutoDiff evaluation is based on a modified downstream version of MimIR (back then called Thorin2) that contains changes (primarily optimizations) that were not deemed stable enough for incorporation in the upstream MimIR project, yet.
-We believe that this case study shows part of the potential of using MimIR for DSL development, but this part is not 100% in a state for public use, yet.
+We believe that this case study shows part of the potential of using MimIR for DSL development.
 
 Therefore, the evaluation is based on the docker image `fodinabor/mimir-ad-bench:gmm` that contains the MimIR, Impala, PyTorch and Enzyme versions used for the paper.
 
 The AutoDiff work shows that MimIR lends itself quite nicely to developing efficient DSLs on top.
-By making use of the IR's functional principles, the task of auto differentiation can be solved in a compact implementation and even performs great.
+By making use of the IR's functional principles, the task of automatic differentiation can be solved in a compact implementation with state-of-the-art performance.
 
 **Claim**: In the paper (6.3) we claim that our AutoDiff implementation is much more compact due to MimIR's design than comparable implementations on LLVM IR (Enzyme).
-Todo: calculate metrics again.
+After running `./evaluate.sh` the metrics of the code complexity analysis will be found in `output/metrix.txt`.
 
 **Claim**: In the paper, we also claim that the performance is still comparable to state-of-the-art auto differentiation tools (PyTorch, Enzyme).
-After running `./evaluate.sh` the results will be found in output/autodiff`.
+After running `./evaluate.sh` the results will be found in `output/autodiff`.
 You can find a plot of the results in `output/autodiff/gmm.pdf`. Compare this to `Fig. 8.` in the paper.
 
 To keep the runtime of the artifact reasonable, we only run the GMM benchmark on a subset of tools and sizes.
