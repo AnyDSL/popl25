@@ -114,7 +114,7 @@ The BA, LSTM, and NN (MNIST) benchmarks are run inside the `ad` folder and the o
 Compare these raw timing numbers with the speedups shown `Fig. 7.` in the paper.
 
 ## Availability of the artifact
-The POPL artifact is available at Zenodo (https://doi.org/10.5281/zenodo.13935446).
+The POPL artifact is available at Zenodo (https://doi.org/10.5281/zenodo.13935445).
 However, all parts of the artifact are publicly available online:
 [This GitHub repository](https://github.com/AnyDSL/popl25) contains the evaluation scripts & all repositories as submodules that contribute to the artifact.
 
