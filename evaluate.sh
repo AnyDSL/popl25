@@ -9,14 +9,6 @@ export LD_LIBRARY_PATH=${SCRIPT_PATH}/install/lib:$LD_LIBRARY_PATH
 
 mkdir -p ${SCRIPT_PATH}/output
 
-echo "Running remaining AD benchmarks"
-cd ${SCRIPT_PATH}/ad/
-./run.sh
-cd ${SCRIPT_PATH}/
-cp ${SCRIPT_PATH}/ad/output.txt ${SCRIPT_PATH}/output/adbench.txt
-
-exit 0
-
 cd MimIR
 git submodule update --init --recursive
 

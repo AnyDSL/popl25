@@ -15,15 +15,3 @@
 [submodule "soundness"]
 	path = soundness
 	url = ../../NeuralCoder3/mimir-soundness
-[submodule "ad/impala"]
-	path = ad/impala
-	url = ../../NeuralCoder3/impala.git
-	branch = feature/autodiff-for
-[submodule "ad/thorin2"]
-	path = ad/thorin2
-	url = ../../NeuralCoder3/thorin2.git
-	branch = feature/autodiff-for-null
-[submodule "ad/adbench"]
-	path = ad/adbench
-	url = ../impala-adbench.git
-	branch = master
