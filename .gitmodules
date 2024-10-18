@@ -15,3 +15,15 @@
 [submodule "soundness"]
 	path = soundness
 	url = ../../NeuralCoder3/mimir-soundness
+[submodule "ad/Enzyme"]
+	path = ad/Enzyme
+	url = https://github.com/EnzymeAD/Enzyme.git
+[submodule "ad/mount/impala"]
+	path = ad/mount/impala
+	url = https://github.com/NeuralCoder3/impala.git
+[submodule "ad/mount/thorin2"]
+	path = ad/mount/thorin2
+	url = https://github.com/NeuralCoder3/thorin2.git
+[submodule "ad/mount/impala-adbench"]
+	path = ad/mount/impala-adbench
+	url = https://github.com/NeuralCoder3/adbench-thorin.git
