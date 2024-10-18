@@ -109,3 +109,5 @@ do
         echo -n '  Thorin: ' && 
         /scripts/timit.sh /app/impala-adbench/build/${benchfiles[i]}/impala/native/${benchfiles[i]}_impala /app/impala-adbench/benchmark/${benchfiles[i]}/${benchfiles[i+2]}" | tee -a output.txt
 done
+
+./torch.sh

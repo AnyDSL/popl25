@@ -9,6 +9,7 @@
 # Run the command and time it
 start=$(date +%s%N)
 "$@" > /dev/null 2>&1
+# timeout 600s "$@" > /dev/null 2>&1
 end=$(date +%s%N)
 
 # Calculate the runtime in milliseconds
