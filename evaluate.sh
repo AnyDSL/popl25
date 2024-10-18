@@ -106,6 +106,12 @@ sudo docker run -ti -v "$(pwd)/output/autodiff/gmm:/output" --user=$(id -u) -e F
 python3 scripts/plot_gmm.py
 echo "GMM results are saved in output/autodiff"
 
+echo "Running remaining AD benchmarks"
+cd ${SCRIPT_PATH}/ad/
+./run.sh
+cd ${SCRIPT_PATH}/
+cp ${SCRIPT_PATH}/ad/output.txt ${SCRIPT_PATH}/output/adbench.txt
+
 echo "Building the Coq soundness proof files."
 cd ${SCRIPT_PATH}/soundness
 git submodule update --init --recursive
