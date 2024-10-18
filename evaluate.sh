@@ -102,7 +102,7 @@ cd ${SCRIPT_PATH}/metrix
 echo "Run GMM benchmarks"
 cd ${SCRIPT_PATH}/
 mkdir -p ${SCRIPT_PATH}/output/autodiff/gmm
-sudo docker run -ti -v "$(pwd)/output/autodiff/gmm:/output" --user=$(id -u) -e FOLDERS="10k_small" fodinabor/mimir-ad-bench:gmm
+sudo docker run -ti -v "$(pwd)/output/autodiff/gmm:/output" -e FOLDERS="10k_small" fodinabor/mimir-ad-bench:gmm
 python3 scripts/plot_gmm.py
 echo "GMM results are saved in output/autodiff"
 
