@@ -108,7 +108,7 @@ You can find a plot of the results in `output/autodiff/gmm.pdf`. Compare this to
 
 To keep the runtime of the artifact reasonable, we only run the GMM benchmark on a subset of tools and sizes.
 Therefore, the plot will only show an approximation of the graph for sizes below $5*10^3$.
-To run a more extensive evaluation, you may execute `sudo docker run -ti -v "`pwd`/output:/output" -e FOLDERS="<SELECT YOUR SIZES>" fodinabor/mimir-ad-bench:gmm`, where supported sizes are `10k_small 10k 10k_D128 10k_K100 10k_D256 10k_K200`.
+To run a more extensive evaluation, you may execute `sudo docker run -ti -v "$(pwd)/output:/output" -e FOLDERS="<SELECT YOUR SIZES>" fodinabor/mimir-ad-bench:gmm`, where supported sizes are `10k_small 10k 10k_D128 10k_K100 10k_D256 10k_K200`.
 
 The BA, LSTM, and NN benchmarks are run inside the `ad` folder and the output times are copied to `output/adbench.txt`.
 
