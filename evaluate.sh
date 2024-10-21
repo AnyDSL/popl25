@@ -51,7 +51,7 @@ cd build
 cmake . -DREGEX_COMPILE_TIME_BENCHMARK=ON
 # warm-up the file cache once
 make clean; make -n benchmark_mail 2> /dev/null | grep -E "(clang++|bin/mim)" | sed "s/^/time /" | bash --verbose &> /dev/null
-make clean; make -n benchmark_mail 2> /dev/null | grep -E "(clang++|bin/mim)" | sed "s/^/time /" | bash --verbose |& grep -oP "(\-o [\/\w\.]+|\-c [\/\w\.]+|[\/\w\.]+ --output-ll [\/\w\.]+|user.*$)" |& tee ${SCRIPT_PATH}/output/benchmark_mail_compiletime.csv
+make clean; make -n benchmark_mail 2> /dev/null | grep -E "(clang++|bin/mim)" | sed "s/^/time /" | bash --verbose |& grep -oP "(\-o [\/\w\.]+|\-c [\/\w\.]+|[\/\w\.]+ --output-ll [\/\w\.]+|user.*$)" |& tee ${SCRIPT_PATH}/output/benchmark_mail_compiletime
 
 echo "CLOC RegEx implementations"
 rm -rf pcre2 &> /dev/null
